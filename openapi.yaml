@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  title: Posts API
+  description: API for managing and rating posts
+  version: 1.0.0
+paths:
+  /api/v1/posts/{customer_id}:
+    get:
+      summary: List all posts
+      description: Retrieve all posts for a specific customer and indicate if they have rated each post.
+      parameters:
+        - name: customer_id
+          in: path
+          required: true
+          description: The ID of the customer for whom to retrieve posts.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of posts with rating information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        post_id:
+                          type: integer
+                        title:
+                          type: string
+                        content:
+                          type: string
+                        rated:
+                          type: boolean
+                          description: Indicates if the customer has rated the post.
+        '404':
+          description: Customer not found or no posts available.
+        '500':
+          description: Internal server error.
+
+  /api/v1/posts/rate/{post_id}:
+    post:
+      summary: Rate a post
+      description: Submit a rating for a specific post from a customer.
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          description: The ID of the post to rate.
+          schema:
+            type: integer
+        - name: body
+          in: body
+          required: true
+          description: Customer ID and rating to submit.
+          schema:
+            type: object
+            properties:
+              customer_id:
+                type: integer
+              rate:
+                type: integer
+                description: Rating for the post, must be between 0 and 5.
+      responses:
+        '200':
+          description: Successfully rated the post.
+        '400':
+          description: Bad request, possibly invalid rating (rate should be between 0 and 5)
+        '404':
+          description: Post or customer not found.
+        '500':
+          description: Internal server error.
