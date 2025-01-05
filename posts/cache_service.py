@@ -17,7 +17,6 @@ class CacheService:
         if value is None:
             return None
 
-        print('vvvvvvvvvvv', value, type(value))
         return Decimal(value)
 
     @staticmethod

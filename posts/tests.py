@@ -54,8 +54,6 @@ class TestEndpoints(TestCase):
         self.client = Client()
 
     def test_get_posts(self):
-        print('0000000000000000')
-
         # test get all posts
         response = self.client.get(
             self.posts_endpoint,
