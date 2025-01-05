@@ -18,7 +18,7 @@ paths:
         - name: post_id
           in: query
           required: true
-          description: The ID of the post to get rating.
+          description: The ID of the post to get rating (if you give post_id, only `average_rating` of the post is available.
           schema:
             type: integer
       responses:
@@ -34,15 +34,19 @@ paths:
                     items:
                       type: object
                       properties:
-                        post_id:
+                        id:
                           type: integer
                         title:
                           type: string
-                        content:
+                        text:
                           type: string
-                        rated:
-                          type: boolean
-                          description: Indicates if the customer has rated the post.
+                        rate_count:
+                          type: integer
+                        average_rating:
+                          type: string
+                        your_rating:
+                          type: integer
+                          description: The rating you gave for this post
         '404':
           description: Customer not found or no posts available.
         '500':

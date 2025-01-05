@@ -78,7 +78,8 @@ class TestEndpoints(TestCase):
             }
         )
 
-        post_info = response.json()
+        post_info = response.json()[0]
+
         assert Decimal(post_info['average_rating']) == self.post.average_rating
 
     def test_post_rate(self):

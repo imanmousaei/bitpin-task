@@ -19,7 +19,7 @@ class PostsView(APIView):
             if rating is None:
                 rating = Post.objects.filter(id=post_id).values_list('average_rating', flat=True).first()
                 CacheService.set_decimal(cache_key, rating)
-            return Response({'post_id': post_id, 'average_rating': rating}, status=status.HTTP_200_OK)
+            return Response([{'id': post_id, 'average_rating': rating}], status=status.HTTP_200_OK)
         else:
             posts_list = Post.objects.all()
             serializer = PostSerializer(posts_list, many=True, context={'customer_id': customer_id})
