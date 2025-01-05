@@ -3,7 +3,6 @@ djangorestframework
 django-redis
 pytest
 pytest-django
-model-bakery
 
 gunicorn
 psycopg2-binary

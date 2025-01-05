@@ -14,7 +14,7 @@ pytestmark = pytest.mark.django_db
 
 class TestEndpoints(TestCase):
     posts_endpoint = '/api/v1/posts/'
-    rate_endpoint = posts_endpoint+ 'rate'
+    rate_endpoint = posts_endpoint + 'rate'
 
     def setUp(self) -> None:
         # test create post
@@ -54,14 +54,15 @@ class TestEndpoints(TestCase):
         self.client = Client()
 
     def test_get_posts(self):
+        print('0000000000000000')
+
+        # test get all posts
         response = self.client.get(
             self.posts_endpoint,
             data={
                 'customer_id': self.customer.id,
             }
         )
-
-        print(response.json())
         assert response.status_code == 200
         first_post = response.json()[0]
 
@@ -70,18 +71,28 @@ class TestEndpoints(TestCase):
         assert first_post['rate_count'] == 2
         assert Decimal(first_post['average_rating']) == (Decimal(5) * settings.LAMBDA + Decimal(4)) / Decimal(2)
 
+        # test get one post rating
+        response = self.client.get(
+            self.posts_endpoint,
+            data={
+                'customer_id': self.customer.id,
+                'post_id': self.post.id
+            }
+        )
+
+        post_info = response.json()
+        assert Decimal(post_info['average_rating']) == self.post.average_rating
 
     def test_post_rate(self):
         # test valid rating
         response = self.client.post(
             f'{self.rate_endpoint}/{self.post.id}',
             {
-                'customer_id' : self.customer3.id,
-                'rate' : 5
+                'customer_id': self.customer3.id,
+                'rate': 5
             }
         )
 
-        print(response.data)
         assert response.status_code in [201, 200]
         assert CustomerRating.objects.filter(customer=self.customer3, rate=5, post=self.post).exists()
 
@@ -89,8 +100,8 @@ class TestEndpoints(TestCase):
         response = self.client.post(
             f'{self.rate_endpoint}/{self.post.id}',
             {
-                'customer_id' : self.customer3.id,
-                'rate' : 4
+                'customer_id': self.customer3.id,
+                'rate': 4
             }
         )
 

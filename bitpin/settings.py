@@ -9,10 +9,10 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import configparser
+import os
 from decimal import Decimal
 from pathlib import Path
-import os
-import configparser
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -107,6 +107,17 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'psq1234',
         'HOST': '127.0.0.1',
+    }
+}
+
+# cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
     }
 }
 
@@ -212,3 +223,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # for calculating rate (more weight to older rates)
 LAMBDA = Decimal('1.1')
+
+# cache timeout for post ratings
+RATING_CACHE_TIMEOUT = 5 * 60  # 5 min

@@ -4,15 +4,21 @@ info:
   description: API for managing and rating posts
   version: 1.0.0
 paths:
-  /api/v1/posts/{customer_id}:
+  /api/v1/posts/:
     get:
       summary: List all posts
       description: Retrieve all posts for a specific customer and indicate if they have rated each post.
       parameters:
         - name: customer_id
-          in: path
+          in: query
           required: true
-          description: The ID of the customer for whom to retrieve posts.
+          description: The ID of the customer (for showing your rating)
+          schema:
+            type: integer
+        - name: post_id
+          in: query
+          required: true
+          description: The ID of the post to get rating.
           schema:
             type: integer
       responses:
