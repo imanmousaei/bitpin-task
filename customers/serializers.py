@@ -19,6 +19,5 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = '__all__'
-        # exclude = ('self.user.password', )
         read_only_fields = ('id',)
         depth = 1
