@@ -1,7 +1,10 @@
 # Django Backend for bitpin task
 
 ## How it handles sudden rate changes
-It multiplies older rates to LAMBDA(>1) which ensures older rates have more weight than new ones.
+
+It multiplies older rates to LAMBDA(>1) which ensures older rates have more weight than new ones. I also added cache
+that saves the rating for each post for 5 mins (so that it doesn't affect the rating right away, and also for speed and
+optimization).
 
 ## Run on Local
 
