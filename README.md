@@ -31,3 +31,7 @@ in this way dbexports are saved at : `/var/lib/postgresql`
 
 ## CI 
 The file `.gitlab-ci.yml` is configured to run django tests on gitlab when a commit is pushed to `main` branch
+
+## Swagger
+
+Swagger is available in [this file](./openapi.yaml)
